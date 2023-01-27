@@ -1,0 +1,35 @@
+# Basic set up for three package managers
+
+version: 2
+updates:
+
+  # Maintain dependencies for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+
+  # Maintain dependencies for pip
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    allow:
+      # Allow both direct and indirect updates for all packages
+      - dependency-type: "all"
+    assignees:
+      - "xcalizorz"
+    labels:
+      - "pipy"
+      - "dependencies"
+
+  # Maintain dependencies for pipenv
+  - package-ecosystem: "pipenv"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    assignees:
+      - "xcalizorz"
+    labels:
+      - "pipy"
+      - "dependencies"
