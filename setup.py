@@ -3,11 +3,11 @@ from setuptools import setup
 
 setup(
     name="prometheus-salt-exporter",
-    version="0.1.0rc3",
-    author="ioki sre.core",
+    version="0.1.0rc5",
+    author="ioki SRE core",
     author_email="zadjad.rezai@ioki.com",
     description=("Prometheus Exporter for Salt highstate metrics run from the Salt master."),
-    long_description=open("README.rst").read(),
+    long_description=open("README.rst", encoding="utf-8").read(),
     license="MIT",
     keywords="prometheus exporter salt monitoring",
     url="https://github.com/ioki-mobility/salt_exporter",

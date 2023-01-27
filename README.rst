@@ -6,6 +6,8 @@ The exporter must have permissions to execute commands locally.
 
 Note: Python 2 is not supported. Instead use Python 3.8 or higher.
 
+Inspired by `BonnierNews/saltstack_exporter <https://github.com/BonnierNews/saltstack_exporter>`__
+
 Prerequisites
 -------------
 
@@ -48,23 +50,23 @@ Metrics
 
 Currently, the exporter exposes metrics for highstate conformity only:
 
-+------------------------+---------------------------------------------+
-| Metric                 | Description                                 |
-+========================+=============================================+
-| saltstack_states_total | Number of states which apply to the minion  |
-|                        | in highstate                                |
-+------------------------+---------------------------------------------+
-| sa                     | Number of states which would change on      |
-| ltstack_nonhigh_states | state.highstate                             |
-+------------------------+---------------------------------------------+
-| saltstack_error_states | Number of states which returns an error on  |
-|                        | highstate dry-run                           |
-+------------------------+---------------------------------------------+
-| salt_highstate_error   | Error in trying to apply highstate          |
-+------------------------+---------------------------------------------+
-| sa                     | Timestamp of the last highstate test run    |
-| ltstack_last_highstate |                                             |
-+------------------------+---------------------------------------------+
++---------------------------+---------------------------------------------+
+| Metric                    | Description                                 |
++===========================+=============================================+
+|| saltstack_states_total   || Number of states which apply to the minion |
+||                          || in highstate                               |
++---------------------------+---------------------------------------------+
+|| saltstack_nonhigh_states || Number of states which would change on     |
+||                          || state.highstate                            |
++---------------------------+---------------------------------------------+
+|| saltstack_error_states   || Number of states which returns an error on |
+||                          || highstate dry-run                          |
++---------------------------+---------------------------------------------+
+| saltstack_highstate_error | Error in trying to apply highstate          |
++---------------------------+---------------------------------------------+
+|| saltstack_last_highstate || Timestamp of the last highstate test run   |
+||                          ||                                            |
++---------------------------+---------------------------------------------+
 
 Output
 ~~~~~~

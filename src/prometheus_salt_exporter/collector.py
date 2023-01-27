@@ -30,7 +30,7 @@ class SaltHighstateCollector:
             labels=["minion"],
         )
         self.states_apply_error = GaugeMetricFamily(
-            "salt_highstate_error",
+            "saltstack_highstate_error",
             "Error in trying to apply highstate",
             labels=["minion"],
         )
