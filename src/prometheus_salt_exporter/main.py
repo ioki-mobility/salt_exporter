@@ -5,12 +5,12 @@ salt * -b {--batch-size} state.highstate test=True
 This tool can only be used on the salt-master node.
 """
 from wsgiref.simple_server import make_server
+from prometheus_client import REGISTRY, make_wsgi_app
+from salt import client
 
 from .cli import params
 from .collector import SaltHighstateCollector
 from .logger import log
-from prometheus_client import REGISTRY, make_wsgi_app
-from salt import client
 
 
 def main():
@@ -18,8 +18,8 @@ def main():
     # https://docs.saltproject.io/en/latest/ref/clients/index.html#localclient
     caller = client.LocalClient()
     # Start up the server to expose the metrics.
-    log.info(f"Listening on {params.listen_addr}:{params.listen_port}")
-    
+    print(f"Listening on {params.listen_addr}:{params.listen_port}")
+
     REGISTRY.register(SaltHighstateCollector(caller, params, log))
     app = make_wsgi_app(REGISTRY)
     httpd = make_server(params.listen_addr, params.listen_port, app)

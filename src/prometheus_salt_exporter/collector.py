@@ -43,7 +43,7 @@ class SaltHighstateCollector:
         # Start worker thread that will collect metrics async
         thread = threading.Thread(target=self.collect_worker, args=(params.highstate_interval,))
         try:
-            thread.setDaemon(True)
+            thread.daemon = True
             thread.start()
         except (KeyboardInterrupt, SystemExit):
             thread.join(0)
@@ -52,7 +52,7 @@ class SaltHighstateCollector:
     def collect_worker(self, highstate_interval):
         """A method only run once every `--highstate-interval`
         This allows us to not rerun salt state.highstate on every request to /metrics
-        
+
         Especially on larger saltstacks, calling salt might take some time.
         Hence, it makes sense to collect the data independently of HTTP calls to
         the Prometheus Salt exporter.
@@ -61,12 +61,12 @@ class SaltHighstateCollector:
             try:
                 self.statedata = list(self.caller.cmd_batch(
                     tgt=self.params.salt_target,
-                    fun="state.highstate", 
+                    fun="state.highstate",
                     batch=self.params.batch_size,
                     test=True,
                 ))
-            except (SaltClientError, SaltClientTimeout) as e:
-                self.log.error(e)
+            except (SaltClientError, SaltClientTimeout) as ex:
+                self.log.error(ex)
                 # wait before retrying after an error
                 time.sleep(300)
                 continue
@@ -74,7 +74,8 @@ class SaltHighstateCollector:
             time.sleep(highstate_interval)
 
     def describe(self):
-        # Running highstate on startup can be slow, so we describe instead
+        """Running highstate on startup can be slow, so we describe instead
+        """
         yield self.states_total
         yield self.states_nonhigh
         yield self.states_error
@@ -100,10 +101,10 @@ class SaltHighstateCollector:
                 continue
 
             states_nonhigh, states_error = 0, 0
-            for v in state.values():
-                if v["result"] is None:
+            for value in state.values():
+                if value["result"] is None:
                     states_nonhigh += 1
-                if v["result"] is False:
+                if value["result"] is False:
                     states_error += 1
 
             self.states_total.add_metric([instance], len(state))
@@ -111,6 +112,6 @@ class SaltHighstateCollector:
 
             self.states_nonhigh.add_metric([instance], states_nonhigh)
             yield self.states_nonhigh
-            
+
             self.states_error.add_metric([instance], states_error)
             yield self.states_error
