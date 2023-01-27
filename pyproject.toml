@@ -1,0 +1,17 @@
+[tool.ruff]
+line-length = 120
+select = ["E", "F", "Q"]
+
+ignore = []
+
+# Assume Python 3.8.
+target-version = "py38"
+
+# https://github.com/charliermarsh/ruff#respect-gitignore
+respect-gitignore = true
+
+# The source code paths to consider, e.g., when resolving first- vs. third-party imports.
+src = ["src"]
+
+[tool.ruff.flake8-quotes]
+docstring-quotes = "double"
