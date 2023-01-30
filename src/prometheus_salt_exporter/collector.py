@@ -63,7 +63,7 @@ class SaltHighstateCollector:
                     tgt=self.params.salt_target,
                     fun="state.highstate",
                     batch=self.params.batch_size,
-                    test=True,
+                    kwarg={"test": True},
                 ))
             except (SaltClientError, SaltClientTimeout) as ex:
                 self.log.error(ex)
