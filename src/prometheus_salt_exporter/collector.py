@@ -1,3 +1,5 @@
+import os
+import signal
 import sys
 import threading
 import time
@@ -67,6 +69,9 @@ class SaltHighstateCollector:
                 ))
             except (SaltClientError, SaltClientTimeout) as ex:
                 self.log.error(ex)
+                # exit with error code if the master is not running at all
+                if ex.message == "The salt master could not be contacted. Is master running?":
+                    os.kill(os.getpid(), signal.SIGINT)
                 # wait before retrying after an error
                 time.sleep(300)
                 continue
