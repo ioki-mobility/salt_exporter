@@ -1,0 +1,3 @@
+base:
+  '*':
+    - salt_exporter

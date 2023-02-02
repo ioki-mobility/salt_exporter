@@ -5,7 +5,7 @@ import threading
 import time
 
 from prometheus_client.core import CounterMetricFamily, GaugeMetricFamily
-from salt.exceptions import SaltClientError, SaltClientTimeout
+from salt.exceptions import AuthenticationError, SaltClientError, SaltClientTimeout
 
 
 class SaltHighstateCollector:
@@ -13,6 +13,10 @@ class SaltHighstateCollector:
         self.caller = caller
         self.params = params
         self.log = log
+        self.breaking_errors = [
+            "The salt master could not be contacted. Is master running?",
+            "Authentication error occurred.",
+        ]
 
         self.statedata = None
 
@@ -67,10 +71,10 @@ class SaltHighstateCollector:
                     batch=self.params.batch_size,
                     kwarg={"test": True},
                 ))
-            except (SaltClientError, SaltClientTimeout) as ex:
+            except (SaltClientError, SaltClientTimeout, AuthenticationError) as ex:
                 self.log.error(ex)
                 # exit with error code if the master is not running at all
-                if ex.message == "The salt master could not be contacted. Is master running?":
+                if ex.message in self.breaking_errors:
                     os.kill(os.getpid(), signal.SIGINT)
                 # wait before retrying after an error
                 time.sleep(self.params.wait_on_error_interval)
