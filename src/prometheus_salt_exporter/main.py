@@ -16,7 +16,7 @@ from .logger import log
 def main():
     # The LocalClient can only be run on the salt-master
     # https://docs.saltproject.io/en/latest/ref/clients/index.html#localclient
-    caller = client.LocalClient()
+    caller = client.LocalClient(auto_reconnect=True)
     # Start up the server to expose the metrics.
     print(f"Listening on {params.listen_addr}:{params.listen_port}")
 
