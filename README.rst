@@ -27,10 +27,10 @@ Configuration and Usage
 
 ::
 
-   usage: prometheus_salt_exporter [-h] [--listen-addr LISTEN_ADDR] [--listen-port LISTEN_PORT] [--highstate-interval HIGHSTATE_INTERVAL] [--batch-size BATCH_SIZE]
-                                 [--salt-target SALT_TARGET] [--log-level LOG_LEVEL]
+   usage: prometheus_salt_exporter [-h] [--listen-addr LISTEN_ADDR] [--listen-port LISTEN_PORT] [--highstate-interval HIGHSTATE_INTERVAL] [--wait-on-error-interval WAIT_ON_ERROR_INTERVAL]
+                  [--batch-size BATCH_SIZE] [--salt-target SALT_TARGET] [--log-level LOG_LEVEL]
 
-   optional arguments:
+   options:
    -h, --help            show this help message and exit
    --listen-addr LISTEN_ADDR
                            Address to bind to (default: 0.0.0.0)
@@ -38,6 +38,8 @@ Configuration and Usage
                            Port to bind to (default: 9175)
    --highstate-interval HIGHSTATE_INTERVAL
                            Seconds between each highstate test run (default: 300)
+   --wait-on-error-interval WAIT_ON_ERROR_INTERVAL
+                           Seconds to wait when an error occurs (e.g. salt-master not responding in time) (default: 300)
    --batch-size BATCH_SIZE
                            Batch size to use in salt (default: 10)
    --salt-target SALT_TARGET
@@ -69,7 +71,7 @@ Currently, the exporter exposes metrics for highstate conformity only:
 +---------------------------+---------------------------------------------+
 
 Output
-~~~~~~
+------
 
 ::
 
