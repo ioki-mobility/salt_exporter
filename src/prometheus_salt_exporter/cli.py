@@ -22,6 +22,12 @@ parser.add_argument(
     default=300
 )
 parser.add_argument(
+    "--wait-on-error-interval",
+    type=int,
+    help="Seconds to wait when an error occurs (e.g. salt-master not responding in time)",
+    default=300
+)
+parser.add_argument(
     "--batch-size",
     type=int,
     help="Batch size to use in salt",

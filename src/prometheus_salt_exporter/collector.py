@@ -1,9 +1,11 @@
+import os
+import signal
 import sys
 import threading
 import time
 
 from prometheus_client.core import CounterMetricFamily, GaugeMetricFamily
-from salt.exceptions import SaltClientError, SaltClientTimeout
+from salt.exceptions import AuthenticationError, SaltClientError, SaltClientTimeout
 
 
 class SaltHighstateCollector:
@@ -11,6 +13,10 @@ class SaltHighstateCollector:
         self.caller = caller
         self.params = params
         self.log = log
+        self.breaking_errors = [
+            "The salt master could not be contacted. Is master running?",
+            "Authentication error occurred.",
+        ]
 
         self.statedata = None
 
@@ -41,7 +47,7 @@ class SaltHighstateCollector:
         )
 
         # Start worker thread that will collect metrics async
-        thread = threading.Thread(target=self.collect_worker, args=(params.highstate_interval,))
+        thread = threading.Thread(target=self.collect_worker)
         try:
             thread.daemon = True
             thread.start()
@@ -49,7 +55,7 @@ class SaltHighstateCollector:
             thread.join(0)
             sys.exit()
 
-    def collect_worker(self, highstate_interval):
+    def collect_worker(self):
         """A method only run once every `--highstate-interval`
         This allows us to not rerun salt state.highstate on every request to /metrics
 
@@ -65,13 +71,16 @@ class SaltHighstateCollector:
                     batch=self.params.batch_size,
                     kwarg={"test": True},
                 ))
-            except (SaltClientError, SaltClientTimeout) as ex:
+            except (SaltClientError, SaltClientTimeout, AuthenticationError) as ex:
                 self.log.error(ex)
+                # exit with error code if the master is not running at all
+                if ex.message in self.breaking_errors:
+                    os.kill(os.getpid(), signal.SIGINT)
                 # wait before retrying after an error
-                time.sleep(300)
+                time.sleep(self.params.wait_on_error_interval)
                 continue
             self.last_highstate = int(time.time())
-            time.sleep(highstate_interval)
+            time.sleep(self.params.highstate_interval)
 
     def describe(self):
         """Running highstate on startup can be slow, so we describe instead
