@@ -9,20 +9,6 @@ updates:
     schedule:
       interval: "weekly"
 
-  # Maintain dependencies for pip
-  - package-ecosystem: "pip"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-    allow:
-      # Allow both direct and indirect updates for all packages
-      - dependency-type: "all"
-    assignees:
-      - "xcalizorz"
-    labels:
-      - "pipy"
-      - "dependencies"
-
   # Maintain dependencies for pipenv
   - package-ecosystem: "pipenv"
     directory: "/"
