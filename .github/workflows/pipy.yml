@@ -24,7 +24,9 @@ jobs:
 
       - name: Publish tar.gz
         uses: actions/upload-artifact@v3
-        path: dist/
+        with:
+          name: dist
+          path: dist/
 
   verify:
     runs-on: ubuntu-22.04
