@@ -10,7 +10,7 @@ updates:
       interval: "weekly"
 
   # Maintain dependencies for pipenv
-  - package-ecosystem: "pipenv"
+  - package-ecosystem: "pip"
     directory: "/"
     schedule:
       interval: "weekly"
