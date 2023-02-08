@@ -1,0 +1,55 @@
+name: 'Saltstack'
+
+on: [push, pull_request]
+
+jobs:
+  saltstack_integration:
+    name: 'Integration Test'
+    runs-on: ubuntu-22.04
+
+    steps:
+    - uses: actions/checkout@v3
+    # NOTE: Inspec repositories are not providing a package for jammy yet
+    - name: Install Chef Inspec
+      run: |
+        wget https://packages.chef.io/files/stable/inspec/4.41.20/ubuntu/20.04/inspec_4.41.20-1_amd64.deb
+        sudo dpkg -i inspec_4.41.20-1_amd64.deb
+        rm inspec_4.41.20-1_amd64.deb
+        sudo inspec --chef-license=accept-silent
+
+    - name: Install salt-master and salt-minion
+      run: |
+        wget https://bootstrap.saltproject.io -O bootstrap-salt.sh
+        chmod +x bootstrap-salt.sh
+        sudo sh ./bootstrap-salt.sh -j '{"master":"0.0.0.0", "id":"minion1"}' -M stable
+        sudo salt-key -L
+
+        # Workaround because the json configurations (-J) does not work all the time
+        sudo salt-key -a minion1 -y
+
+        # wait until minion is ready
+        timeout 30s bash -c "until sudo salt '*' test.ping; do sleep 2; done"
+
+    - name: Copy test files into salt-directory
+      run: |
+        sudo mkdir -p /srv/salt
+        sudo cp -r ${{ github.workspace }}/tests/salt/* /srv/salt
+
+    - name: Apply state (test=True)
+      run: |
+        sudo salt '*' state.apply test=True
+
+    - name: Install python packages
+      run: |
+        sudo python -m pip install pipenv
+        # pipenv is not working reliably when combined with sudo and a python_version requirement
+        sudo pipenv requirements > requirements.txt
+        sudo python -m pip install -r requirements.txt
+
+    - name: Start prometheus-salt-exporter
+      run: |
+        sudo python -m src.prometheus_salt_exporter.main --listen-port 9175 --highstate-interval 30 --wait-on-error-interval 10 &
+
+    - name: Run inspec
+      run: |
+        sudo inspec exec ${{ github.workspace }}/tests/salt/integration/salt_exporter
