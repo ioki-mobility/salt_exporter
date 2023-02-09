@@ -4,6 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+Twisted = ">=22.10"
 prometheus-client = ">=0.16"
 salt = "*"
 

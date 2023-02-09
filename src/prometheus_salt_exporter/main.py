@@ -4,9 +4,12 @@ salt * -b {--batch-size} state.highstate test=True
 
 This tool can only be used on the salt-master node.
 """
-from wsgiref.simple_server import make_server
-from prometheus_client import REGISTRY, make_wsgi_app
+from prometheus_client import REGISTRY
+from prometheus_client.twisted import MetricsResource
 from salt import client
+from twisted.internet import reactor
+from twisted.web.resource import Resource
+from twisted.web.server import Site
 
 from .cli import params
 from .collector import SaltHighstateCollector
@@ -21,9 +24,13 @@ def main():
     print(f"Listening on {params.listen_addr}:{params.listen_port}")
 
     REGISTRY.register(SaltHighstateCollector(caller, params, log))
-    app = make_wsgi_app(REGISTRY)
-    httpd = make_server(params.listen_addr, params.listen_port, app)
-    httpd.serve_forever()
+
+    root = Resource()
+    root.putChild(b"metrics", MetricsResource(registry=REGISTRY))
+
+    factory = Site(root)
+    reactor.listenTCP(port=params.listen_port, factory=factory, interface=params.listen_addr)
+    reactor.run()
 
 if __name__ == "__main__":
     main()
