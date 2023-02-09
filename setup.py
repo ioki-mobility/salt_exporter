@@ -3,9 +3,9 @@ from setuptools import setup
 
 setup(
     name="prometheus-salt-exporter",
-    version="0.1.1",
+    version="0.1.2",
     author="ioki SRE core",
-    author_email="zadjad.rezai@ioki.com",
+    author_email="sre.core@ioki.com",
     description=("Prometheus Exporter for Salt highstate metrics run from the Salt master."),
     long_description=open("README.rst", encoding="utf-8").read(),
     license="MIT",
