@@ -33,7 +33,7 @@ Configuration and Usage
    options:
    -h, --help            show this help message and exit
    --listen-addr LISTEN_ADDR
-                           Address to bind to. IPv4 and IPv6 addresses can be specified. (default: 0.0.0.0)
+                           Address to bind to. IPv4 and IPv6 addresses can be specified. (default: ::)
    --listen-port LISTEN_PORT
                            Port to bind to (default: 9175)
    --highstate-interval HIGHSTATE_INTERVAL

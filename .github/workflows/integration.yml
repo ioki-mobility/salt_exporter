@@ -48,7 +48,7 @@ jobs:
 
     - name: Start prometheus-salt-exporter
       run: |
-        sudo python -m src.prometheus_salt_exporter.main --listen-addr '::' --listen-port 9175 --highstate-interval 30 --wait-on-error-interval 10 &
+        sudo python -m src.prometheus_salt_exporter.main --listen-port 9175 --highstate-interval 30 --wait-on-error-interval 10 &
 
     - name: Run inspec
       run: |
