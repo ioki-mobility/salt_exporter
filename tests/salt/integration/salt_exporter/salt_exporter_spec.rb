@@ -12,7 +12,16 @@ control 'prometheus-salt-exporter' do
     }
 
     # Test metrics
-    describe Net::HTTP.get_response(URI('http://localhost:9175/metrics')) do
+    ## IPv4
+    describe Net::HTTP.get_response(URI('http://127.0.0.1:9175/metrics')) do
+        its(:code) { should eq '200' }
+        its(:body) { should match 'saltstack_states_total{minion="minion1"} 1.0' }
+        its(:body) { should match 'saltstack_error_states{minion="minion1"} 0.0' }
+        its(:body) { should match 'saltstack_nonhigh_states{minion="minion1"} 1.0' }
+    end
+
+    ## IPv6
+    describe Net::HTTP.get_response(URI('http://[::1]:9175/metrics')) do
         its(:code) { should eq '200' }
         its(:body) { should match 'saltstack_states_total{minion="minion1"} 1.0' }
         its(:body) { should match 'saltstack_error_states{minion="minion1"} 0.0' }

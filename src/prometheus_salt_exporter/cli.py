@@ -6,8 +6,8 @@ parser = argparse.ArgumentParser(
 )
 parser.add_argument(
     "--listen-addr",
-    help="Address to bind to",
-    default="0.0.0.0"
+    help="Address to bind to. IPv4 and IPv6 addresses can be specified.",
+    default="::"
 )
 parser.add_argument(
     "--listen-port",
