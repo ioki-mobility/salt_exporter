@@ -42,6 +42,8 @@ Configuration and Usage
                            Seconds to wait when an error occurs (e.g. salt-master not responding in time) (default: 300)
    --batch-size BATCH_SIZE
                            Batch size to use in salt (default: 10)
+   --batch-wait BATCH_WAIT
+                           Seconds to wait after a minion returns, before sending the command to a new minion (default: 10)
    --salt-target SALT_TARGET
                            Salt target to be used (default: *)
    --log-level LOG_LEVEL

@@ -34,6 +34,12 @@ parser.add_argument(
     default=10
 )
 parser.add_argument(
+    "--batch-wait",
+    type=int,
+    help="Seconds to wait after a minion returns, before sending the command to a new minion",
+    default=10
+)
+parser.add_argument(
     "--salt-target",
     type=str,
     help="Salt target to be used",
