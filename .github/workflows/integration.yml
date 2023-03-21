@@ -44,7 +44,7 @@ jobs:
         sudo python -m pip install pipenv
         # pipenv is not working reliably when combined with sudo and a python_version requirement
         sudo pipenv requirements > requirements.txt
-        sudo python -m pip install -r requirements.txt
+        sudo python -m pip install -r requirements.txt --use-pep517
 
     - name: Start prometheus-salt-exporter
       run: |
