@@ -65,6 +65,7 @@ class SaltHighstateCollector:
         """
         while True:
             try:
+                self.log.info(f"Reading highstate for target '{self.params.salt_target}'")
                 self.statedata = list(self.caller.cmd_batch(
                     tgt=self.params.salt_target,
                     fun="state.highstate",
@@ -74,6 +75,7 @@ class SaltHighstateCollector:
                         "batch-wait": self.params.batch_wait,
                     },
                 ))
+                self.log.info(f"Done reading highstate for target '{self.params.salt_target}'")
             except (SaltClientError, SaltClientTimeout, AuthenticationError) as ex:
                 self.log.error(ex)
                 # exit with error code if the master is not running at all
@@ -95,6 +97,7 @@ class SaltHighstateCollector:
         yield self.states_last_highstate(None)
 
     def collect(self):
+        self.log.info("Received request to send out metrics.")
         try:
             yield self.states_last_highstate(self.last_highstate)
         except AttributeError:
