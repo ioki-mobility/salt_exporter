@@ -116,3 +116,14 @@ Output
    saltstack_error_states{minion="3.mymachine"} 0.0
    saltstack_error_states{minion="2.mymachine"} 0.0
    saltstack_error_states{minion="1.mymachine"} 0.0
+
+
+Troubleshooting
+---------------
+
+Resource issues
+^^^^^^^^^^^^^^^
+
+If you encounter resource issues (e.g. your ``salt-master`` cannot keep up with providing the highstate), 
+please consider using a combination of ``--batch-wait`` and ``--batch-size`` by decreasing the batch size and increasing 
+the waiting time between requests. 
