@@ -8,7 +8,6 @@ log_formatter = logging.Formatter("%(asctime)s %(name)s %(levelname)s %(message)
 # for logging to work as expected
 log = logging.getLogger(__name__)
 ch = logging.StreamHandler()
-ch.setLevel(logging.DEBUG)
+ch.setLevel(params.log_level)
 ch.setFormatter(log_formatter)
 log.addHandler(ch)
-log.setLevel(params.log_level)
