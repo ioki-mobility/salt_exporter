@@ -9,6 +9,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    # We cannot use 'actions/setup-python@v4' because it only sets the Python version for non-root users
+    # The root user will still be using the latest available Python version provided by Ubuntu
+
     # NOTE: Inspec repositories are not providing a package for jammy yet
     - name: Install Chef Inspec
       run: |
@@ -44,7 +47,9 @@ jobs:
         sudo python -m pip install pipenv
         # pipenv is not working reliably when combined with sudo and a python_version requirement
         sudo pipenv requirements > requirements.txt
-        sudo python -m pip install -r requirements.txt
+
+        # the '--use-pep517' uses PEP 517 for building source distributions: https://peps.python.org/pep-0517/
+        sudo python -m pip install -r requirements.txt --use-pep517
 
     - name: Start prometheus-salt-exporter
       run: |

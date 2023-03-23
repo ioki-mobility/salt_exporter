@@ -42,6 +42,8 @@ Configuration and Usage
                            Seconds to wait when an error occurs (e.g. salt-master not responding in time) (default: 300)
    --batch-size BATCH_SIZE
                            Batch size to use in salt (default: 10)
+   --batch-wait BATCH_WAIT
+                           Seconds to wait after a minion returns, before sending the command to a new minion (default: 10)
    --salt-target SALT_TARGET
                            Salt target to be used (default: *)
    --log-level LOG_LEVEL
@@ -114,3 +116,14 @@ Output
    saltstack_error_states{minion="3.mymachine"} 0.0
    saltstack_error_states{minion="2.mymachine"} 0.0
    saltstack_error_states{minion="1.mymachine"} 0.0
+
+
+Troubleshooting
+---------------
+
+Resource issues
+^^^^^^^^^^^^^^^
+
+If you encounter resource issues (e.g. your ``salt-master`` cannot keep up with providing the highstate), 
+please consider using a combination of ``--batch-wait`` and ``--batch-size`` by decreasing the batch size and increasing 
+the waiting time between requests. 
