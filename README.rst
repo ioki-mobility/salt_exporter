@@ -82,40 +82,22 @@ Output
    saltstack_last_highstate_total 1.674730426e+09
    # HELP saltstack_states_total Number of states which apply to the minion in highstate
    # TYPE saltstack_states_total gauge
-   saltstack_states_total{minion="3.mymachine"} 253.0
+   saltstack_states_total{minion="1.minion"} 271.0
    # HELP saltstack_nonhigh_states Number of states which would change on state.highstate
    # TYPE saltstack_nonhigh_states gauge
-   saltstack_nonhigh_states{minion="3.mymachine"} 0.0
+   saltstack_nonhigh_states{minion="1.minion"} 13.0
    # HELP saltstack_error_states Number of states which returns an error on highstate dry-run
    # TYPE saltstack_error_states gauge
-   saltstack_error_states{minion="3.mymachine"} 0.0
+   saltstack_error_states{minion="1.minion"} 0.0
    # HELP saltstack_states_total Number of states which apply to the minion in highstate
    # TYPE saltstack_states_total gauge
-   saltstack_states_total{minion="3.mymachine"} 253.0
-   saltstack_states_total{minion="2.mymachine"} 253.0
+   saltstack_states_total{minion="2.minion"} 197.0
    # HELP saltstack_nonhigh_states Number of states which would change on state.highstate
    # TYPE saltstack_nonhigh_states gauge
-   saltstack_nonhigh_states{minion="3.mymachine"} 0.0
-   saltstack_nonhigh_states{minion="2.mymachine"} 0.0
+   saltstack_nonhigh_states{minion="2.minion"} 6.0
    # HELP saltstack_error_states Number of states which returns an error on highstate dry-run
    # TYPE saltstack_error_states gauge
-   saltstack_error_states{minion="3.mymachine"} 0.0
-   saltstack_error_states{minion="2.mymachine"} 0.0
-   # HELP saltstack_states_total Number of states which apply to the minion in highstate
-   # TYPE saltstack_states_total gauge
-   saltstack_states_total{minion="3.mymachine"} 253.0
-   saltstack_states_total{minion="2.mymachine"} 253.0
-   saltstack_states_total{minion="1.mymachine"} 253.0
-   # HELP saltstack_nonhigh_states Number of states which would change on state.highstate
-   # TYPE saltstack_nonhigh_states gauge
-   saltstack_nonhigh_states{minion="3.mymachine"} 0.0
-   saltstack_nonhigh_states{minion="2.mymachine"} 0.0
-   saltstack_nonhigh_states{minion="1.mymachine"} 0.0
-   # HELP saltstack_error_states Number of states which returns an error on highstate dry-run
-   # TYPE saltstack_error_states gauge
-   saltstack_error_states{minion="3.mymachine"} 0.0
-   saltstack_error_states{minion="2.mymachine"} 0.0
-   saltstack_error_states{minion="1.mymachine"} 0.0
+   saltstack_error_states{minion="2.minion"} 0.0
 
 
 Troubleshooting
