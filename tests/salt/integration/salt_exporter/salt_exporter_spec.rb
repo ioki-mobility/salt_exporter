@@ -18,6 +18,7 @@ control 'prometheus-salt-exporter' do
         its(:body) { should match 'saltstack_states_total{minion="minion1"} 1.0' }
         its(:body) { should match 'saltstack_error_states{minion="minion1"} 0.0' }
         its(:body) { should match 'saltstack_nonhigh_states{minion="minion1"} 1.0' }
+        its(:body) { should match 'saltstack_highstate_error{minion="minion1"} 0.0' }
     end
 
     ## IPv6
@@ -26,6 +27,7 @@ control 'prometheus-salt-exporter' do
         its(:body) { should match 'saltstack_states_total{minion="minion1"} 1.0' }
         its(:body) { should match 'saltstack_error_states{minion="minion1"} 0.0' }
         its(:body) { should match 'saltstack_nonhigh_states{minion="minion1"} 1.0' }
+        its(:body) { should match 'saltstack_highstate_error{minion="minion1"} 0.0' }
     end
 
     # Test with salt cli
