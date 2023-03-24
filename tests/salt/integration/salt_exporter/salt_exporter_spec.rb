@@ -30,6 +30,14 @@ control 'prometheus-salt-exporter' do
         its(:body) { should match 'saltstack_highstate_error{minion="minion1"} 0.0' }
     end
 
+    ## Test for recursive metrics
+    describe Net::HTTP.get_response(URI('http://[::1]:9175/metrics')) do
+        it "does not generate metrics recursively" do
+            matches = subject.body.scan(/minion1/)
+            expect(matches.length).to eq(4)
+        end
+    end
+
     # Test with salt cli
     describe command("salt '*' state.apply test=True") do
         its(:stdout) { should match 'Result: None' }
