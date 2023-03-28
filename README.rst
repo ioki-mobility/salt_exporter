@@ -89,6 +89,9 @@ Output
    # HELP saltstack_error_states Number of states which returns an error on highstate dry-run
    # TYPE saltstack_error_states gauge
    saltstack_error_states{minion="1.minion"} 0.0
+   # HELP saltstack_highstate_error Error in trying to apply highstate
+   # TYPE saltstack_highstate_error gauge
+   saltstack_highstate_error{minion="1.minion"} 0.0
    # HELP saltstack_states_total Number of states which apply to the minion in highstate
    # TYPE saltstack_states_total gauge
    saltstack_states_total{minion="2.minion"} 197.0
@@ -98,6 +101,9 @@ Output
    # HELP saltstack_error_states Number of states which returns an error on highstate dry-run
    # TYPE saltstack_error_states gauge
    saltstack_error_states{minion="2.minion"} 0.0
+   # HELP saltstack_highstate_error Error in trying to apply highstate
+   # TYPE saltstack_highstate_error gauge
+   saltstack_highstate_error{minion="2.minion"} 0.0
 
 
 Troubleshooting

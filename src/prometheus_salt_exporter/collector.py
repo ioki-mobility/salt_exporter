@@ -81,12 +81,13 @@ class SaltHighstateCollector:
             instance, state = next(iter(statedict.items()))
             success = isinstance(state, dict) and len(statedict) == 1
 
+            metrics_states_apply_error = GaugeMetricFamily(
+                "saltstack_highstate_error",
+                "Error in trying to apply highstate",
+                labels=["minion"],
+            )
+
             if not success:
-                metrics_states_apply_error = GaugeMetricFamily(
-                    "saltstack_highstate_error",
-                    "Error in trying to apply highstate",
-                    labels=["minion"],
-                )
                 self.log.error(f"Failed to collect Highstate. Return data: {state}")
                 metrics_states_apply_error.add_metric([instance], 1)
                 yield metrics_states_apply_error
@@ -114,6 +115,9 @@ class SaltHighstateCollector:
                     states_nonhigh += 1
                 if value["result"] is False:
                     states_error += 1
+
+            metrics_states_apply_error.add_metric([instance], 0)
+            yield metrics_states_apply_error
 
             metrics_states_total.add_metric([instance], len(state))
             yield metrics_states_total
